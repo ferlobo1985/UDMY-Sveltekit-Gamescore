@@ -3,6 +3,9 @@
     import { validator } from '@felte/validator-yup';
     import * as yup from 'yup';
 
+    import { registerUser } from '$lib/firebase/client/auth.client';
+
+
     let formType = false;
     let loader = false;
     const schema = yup.object({
@@ -22,6 +25,7 @@
         loader = true;
         if(formType){
             // REGISTER
+            registerUser(values);
         } else {
             // SIGNIN
         }
