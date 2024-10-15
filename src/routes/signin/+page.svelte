@@ -5,11 +5,16 @@
 
     let formType = false;
     let loader = false;
+    const schema = yup.object({
+        email:yup.string().required(),
+        password:yup.string().required()
+    })
 
     const {form, errors} = createForm({
         onSubmit:(values)=>{
             handleSubmit(values)
-        }
+        },
+        extend:validator({schema})
     });
 
 
@@ -36,7 +41,11 @@
                     name="email"
                     class="form-control"
                     value="francis@gmail.com"
+                    class:is-invalid={$errors.email}
                 >
+                {#if $errors.email}
+                    <div class="invalid-feedback">{$errors.email}</div>
+                {/if}
             </div>
 
             <div class="mb-3">
@@ -46,7 +55,11 @@
                     name="password"
                     class="form-control"
                     value="testing123"
+                    class:is-invalid={$errors.password}
                 >
+                {#if $errors.password}
+                    <div class="invalid-feedback">{$errors.password}</div>
+                {/if}
             </div>
 
             <button type="submit" class="btn btn-primary">
