@@ -25,6 +25,22 @@ export async function registerUser({email,password}) {
     }
 }
 
+export async function signinUser({email,password}) {
+    try {
+        const request = await signInWithEmailAndPassword(
+            AUTH, email, password
+        );
+        //SHOW TOAST
+        toasts.add({type:'success',description:'Welcome back :)'})
+        //REDIRECT USER
+        await authRedirect('/',request.user.uid)
+    } catch (e) {
+        toasts.add({type:'error',description:errorCodes(e.code)})
+        throw new Error(e)
+    }
+}
+
+
 export async function addUserToFirestore(user){
     try {
         const newUser = {

@@ -3,8 +3,8 @@
     import { validator } from '@felte/validator-yup';
     import * as yup from 'yup';
 
-    import { registerUser } from '$lib/firebase/client/auth.client';
-
+    import { registerUser, signinUser } from '$lib/firebase/client/auth.client';
+    import Loader from '$lib/components/Utils/loader.svelte'
 
     let formType = false;
     let loader = false;
@@ -25,14 +25,22 @@
         loader = true;
         if(formType){
             // REGISTER
-            registerUser(values);
+            registerUser(values).finally(()=>{
+                loader = false;
+            });
         } else {
             // SIGNIN
+            signinUser(values).finally(()=>{
+                loader = false;
+            });
         }
     }
 </script>
 
 <div class="row justify-content-md-center">
+    {#if loader}
+        <Loader/>
+    {:else}
     <div class="col col-lg-5">
         <h1>{formType ? 'Register':'Sign in'}</h1>
         <hr/>
@@ -79,4 +87,6 @@
         </button>
 
     </div>
+    {/if}
+  
 </div>
