@@ -62,6 +62,7 @@ export async function logout() {
 }
 
 export async function authRedirect(url,userID=null){
+    await setAccessToken() /// SET TOKEN FROM SERVER 
     await goto(url)
 }
 
