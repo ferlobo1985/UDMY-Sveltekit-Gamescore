@@ -1,5 +1,12 @@
 <script>
+	import AuthStore from '$lib/stores/auth.store';
+	import { logout } from '$lib/firebase/client/auth.client'
     import { page } from '$app/stores';
+
+	// AuthStore.subscribe( cur =>{
+	// 	console.log(cur,'readable')
+	// })
+
 </script>
 
 <header>
@@ -19,19 +26,22 @@
                     >Home</a>
 				</li>
 				
-				<li class="nav-item">
-					<button class="nav-link">Logout</button>
-				</li>
-				<li class="nav-item">
-					<a href="/dashboard" class="nav-link"
-                        class:active={$page.url.pathname === '/dashboard'}
-                    >Dashboard</a>
-				</li>
-				<li class="nav-item">
-					<a href="/signin" class="nav-link"
-                        class:active={$page.url.pathname === '/signin'}
-                    >Sign in</a>
-				</li>
+				{#if $AuthStore.isAuth}
+					<li class="nav-item">
+						<button on:click={()=>logout()} class="nav-link">Logout</button>
+					</li>
+					<li class="nav-item">
+						<a href="/dashboard" class="nav-link"
+							class:active={$page.url.pathname === '/dashboard'}
+						>Dashboard</a>
+					</li>
+				{:else}
+					<li class="nav-item">
+						<a href="/signin" class="nav-link"
+							class:active={$page.url.pathname === '/signin'}
+						>Sign in</a>
+					</li>
+				{/if}
 			</ul>
 		</header>
 	</div>
