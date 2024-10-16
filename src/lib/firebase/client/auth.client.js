@@ -58,6 +58,7 @@ export async function addUserToFirestore(user){
 
 export async function logout() {
     await signOut(AUTH);
+    await fetch('/api/auth/token');
     await authRedirect('/');
 }
 

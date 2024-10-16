@@ -18,4 +18,9 @@ export async function POST({request,cookies}){
     }
 }
 
+export async function GET({cookies}){
+    cookies.delete('GS-T',{path:'/'});
+    return json({message:'success'},{status:200})
+}
+
 
