@@ -32,7 +32,7 @@
 					</li>
 					<li class="nav-item">
 						<a href="/dashboard" class="nav-link"
-							class:active={$page.url.pathname === '/dashboard'}
+							class:active={$page.url.pathname.match('/dashboard')}
 						>Dashboard</a>
 					</li>
 				{:else}
