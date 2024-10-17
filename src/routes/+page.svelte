@@ -1,13 +1,24 @@
 <script>
     import articlesStore from "$lib/stores/articles.store";
     import { onMount } from "svelte";
+    import Loader from "$lib/components/Utils/loader.svelte";
+
+    articlesStore.subscribe(store=>{
+        console.log(store)
+    })
 
     onMount(async()=>{
-        await articlesStore.getHomeArticles()
+        if(!$articlesStore.posts?.length){
+            await articlesStore.getHomeArticles()
+        }
     })
 
 </script>
 
+{#if $articlesStore.posts.length <= 0}
+    <Loader/>
+{:else}
+    posts here
+{/if}
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
