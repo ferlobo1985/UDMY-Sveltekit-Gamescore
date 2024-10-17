@@ -35,7 +35,6 @@ export async function updateArticle(id,data,userID) {
     await articleRef.update(data);
 }
 
-
 export async function getUserArticles(userID){
     const query = await articlesCol
     .orderBy('created_at','desc')
