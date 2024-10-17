@@ -1,4 +1,4 @@
-import { getHomeArticles } from "$lib/firebase/client/articles.client";
+import { getHomeArticles, getMoreHomeArticles } from "$lib/firebase/client/articles.client";
 import { writable } from "svelte/store";
 
 const articleStore = writable({
@@ -35,7 +35,10 @@ export default {
         const data = await getHomeArticles(4);
         updateArticles(data);
     },
-    loadMoreArticle: async()=>{
+    loadMoreArticles: async(oldVisible)=>{
         /// GET MORE ARTICLES
+        setLoading(true)
+        const data = await getMoreHomeArticles(2,oldVisible)
+        updateArticles(data);
     }
 }

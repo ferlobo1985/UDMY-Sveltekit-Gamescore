@@ -1,5 +1,5 @@
 import { DB } from "./config.client";
-import { collection, orderBy, query,limit, getDocs } from "firebase/firestore";
+import { collection, orderBy, query,limit, getDocs, startAfter } from "firebase/firestore";
 
 let articlesCol =  collection(DB,'articles');
 
@@ -15,6 +15,28 @@ export async function getHomeArticles(docLimit = 2) {
     } catch (error) {
         throw new Error(error)
     }    
+}
+
+
+export async function getMoreHomeArticles(docLimit = 2, oldVisible) {
+    try {
+        if(oldVisible){
+            const q = query(
+                articlesCol,
+                orderBy('created_at','desc'),
+                startAfter(oldVisible),
+                limit(docLimit)
+            );
+            const querySnapshot = await getDocs(q)
+            const posts = getMoreHelper(querySnapshot);
+
+            return {
+                ...posts
+            }
+        }
+    } catch (error) {
+         throw new Error(error)
+    }
 }
 
 

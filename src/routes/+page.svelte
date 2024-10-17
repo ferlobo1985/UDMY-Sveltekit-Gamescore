@@ -18,7 +18,15 @@
 {#if $articlesStore.posts.length <= 0}
     <Loader/>
 {:else}
-    posts here
+
+    <button
+        class="btn btn-primary"
+        on:click={()=>articlesStore.loadMoreArticles($articlesStore.lastVisible)}
+    >   
+        Load more
+    </button>
+
+
 {/if}
 
 
