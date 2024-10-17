@@ -1,6 +1,6 @@
 //@ts-nocheck
 import schemaValidation from '$lib/components/Forms/profile.schema.js';
-import { getUser } from '$lib/firebase/server/users.server.js';
+import { getUser, updatCurrentUser } from '$lib/firebase/server/users.server.js';
 import { fail } from '@sveltejs/kit';
 
 export async function load({params,locals}) {
@@ -20,7 +20,9 @@ export const actions = {
         }
 
         //// FIREBASE UPDATE
-            
+        await updatCurrentUser(user.data,locals.user.id);
+        // redirect ....option
+
         return {
             success:true
         }
