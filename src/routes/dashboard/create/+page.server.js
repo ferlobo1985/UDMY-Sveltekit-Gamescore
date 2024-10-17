@@ -1,4 +1,5 @@
 import schemaValidation from '$lib/components/Forms/article.schema.js';
+import { fail } from '@sveltejs/kit';
 
 
 export const actions = {
@@ -6,7 +7,9 @@ export const actions = {
         const formData = await request.formData();
         const article = await schemaValidation(formData);
 
-        console.log(article)
+        if(!article.success){
+            return fail(422,article)
+        }
         
 
     }
