@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { getArticleById } from '$lib/firebase/server/articles.server';
+import { getArticleById, updateArticle } from '$lib/firebase/server/articles.server';
 import { error,  fail, redirect } from '@sveltejs/kit';
 import schemaValidation from '$lib/components/Forms/article.schema.js';
 
@@ -16,7 +16,7 @@ export async function load({params,locals}) {
 
 
 export const actions = {
-    default: async({request,locals})=>{
+    default: async({request,locals,params})=>{
         const formData = await request.formData();
         const article = await schemaValidation(formData);
 
@@ -24,5 +24,7 @@ export const actions = {
             return fail(422,article)
         }
 
+        await updateArticle(params.id,article.data,locals.user.id);
+        throw redirect(303,'/dashboard/articles');
     }
 }

@@ -1,6 +1,7 @@
 import { DB } from "./firebase.server"
 import admin from 'firebase-admin';
 import { getUser } from './users.server';
+import { error } from "@sveltejs/kit";
 
 
 let articlesCol = DB.collection('articles')
@@ -23,6 +24,15 @@ export async function getArticleById(id) {
 
         return { id:doc.id,...article, owner:{...owner}}
     }
+}
+
+export async function updateArticle(id,data,userID) {
+    const article = await getArticleById(id);
+    if(!article || article.owner.uid !== userID){
+        throw error(403,{ message: 'Access Denied !'})
+    }
+    const articleRef = await articlesCol.doc(id);
+    await articleRef.update(data);
 }
 
 
