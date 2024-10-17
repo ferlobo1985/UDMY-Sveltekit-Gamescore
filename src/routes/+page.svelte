@@ -4,9 +4,9 @@
     import Loader from "$lib/components/Utils/loader.svelte";
     import Masonry from 'svelte-bricks'
 
-    articlesStore.subscribe(store=>{
-        console.log(store)
-    })
+    // articlesStore.subscribe(store=>{
+    //     console.log(store)
+    // })
 
     onMount(async()=>{
         if(!$articlesStore.posts?.length){
