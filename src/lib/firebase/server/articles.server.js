@@ -13,3 +13,17 @@ export async function createArticle(article,userID) {
 
     return newArticle;
 }
+
+
+export async function getUserArticles(userID){
+    const query = await articlesCol
+    .orderBy('created_at','desc')
+    .where('owner', '==' , userID)
+    .get();
+
+    const articles = query.docs.map(doc=>({
+        id: doc.id,
+        ...doc.data()
+    }))
+    return articles
+}
