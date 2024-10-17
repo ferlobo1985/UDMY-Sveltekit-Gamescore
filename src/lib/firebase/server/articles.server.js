@@ -1,5 +1,6 @@
 import { DB } from "./firebase.server"
 import admin from 'firebase-admin';
+import { getUser } from './users.server';
 
 
 let articlesCol = DB.collection('articles')
@@ -12,6 +13,16 @@ export async function createArticle(article,userID) {
     });
 
     return newArticle;
+}
+
+export async function getArticleById(id) {
+    const doc = await articlesCol.doc(id).get();
+    if(doc.exists){
+        const article = doc.data();
+        const owner = await getUser(article.owner);
+
+        return { id:doc.id,...article, owner:{...owner}}
+    }
 }
 
 
